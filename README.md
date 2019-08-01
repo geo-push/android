@@ -19,7 +19,7 @@ class MainActivity : GeopushMainActivity()
 ```
 ## Для работы пуш сообщений:
 Подключить консоль Firebase к основному проекту.
-Инициализировать Firebase в методе OnCreate основного activity приложения:
+Инициализировать Firebase в методе OnCreate основного activity проекта:
 ```
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
