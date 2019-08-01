@@ -10,6 +10,7 @@ include ':geopushlib'
 Добавить в AndroidManifest.xml основного проекта:
 ```
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+<uses-permission android:name="android.permission.INTERNET" />
 ```
 ## Использование библиотеки:
 Основное activity должно быть наследовано от класса GeopushMainActivity
