@@ -17,6 +17,9 @@ interface Api {
     @POST("terminal/location/")
     fun sendLocation(@Header ("hwid") header: String, @Body body: Any) : Observable<Response<Unit>>
 
+    @POST("terminal/setProps/")
+    fun setProps(@Header ("hwid") header: String, @Body body: Any) : Observable<Response<Unit>>
+
     @GET("promotion/points")
-    fun getDeals(@Query ("lat") lat: Double, @Query ("lon") lon: Double, @Query ("radius") radius: Int) : Observable<List<Any>>
+    fun getDeals(@Header("hwid") header: String, @Query ("lat") lat: Double, @Query ("lon") lon: Double, @Query ("radius") radius: Int) : Observable<List<Any>>
 }

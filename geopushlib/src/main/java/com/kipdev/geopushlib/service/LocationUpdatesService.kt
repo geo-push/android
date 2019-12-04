@@ -146,6 +146,7 @@ class LocationUpdatesService : Service() {
             //if(applicationContext != null)
             //    sendNotification(applicationContext, "requestLocationUpdates ok")
         } catch (unlikely: SecurityException) {
+            println(unlikely.localizedMessage)
             //if(applicationContext != null)
             //    sendNotification(applicationContext, "requestLocationUpdates ${unlikely.toString()}")
         }
@@ -169,6 +170,7 @@ class LocationUpdatesService : Service() {
                     }
                 )
         } catch (unlikely: SecurityException) {
+            println(unlikely.localizedMessage)
             //if(applicationContext != null)
             //    sendNotification(applicationContext, "getLastLocation ${unlikely.toString()}")
         }
@@ -179,12 +181,13 @@ class LocationUpdatesService : Service() {
         //if(applicationContext != null)
         //    sendNotification(applicationContext, "onNewLocation")
 
-        if (serviceIsRunningInForeground(this)) {
+        /*if (serviceIsRunningInForeground(this)) {
             if(mNotificationManager != null)
                 mNotificationManager!!.notify(NOTIFICATION_ID++, notification)
         }
         else
-            startForeground(NOTIFICATION_ID++, notification)
+            startForeground(NOTIFICATION_ID++, notification)*/
+
         sendLocation(application, mLocation!!.latitude, mLocation!!.longitude)
     }
 

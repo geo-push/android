@@ -23,11 +23,12 @@ object NetworkModule {
     }
 
     private fun getUrl() : String {
-        return if (isDebug()) {
+        return "https://api.geopush.me/api/"
+        /*return if (isDebug()) {
             "http://geopush.ubank.su/api/"
         } else {
             "http://geopush.ubank.su/api/"
-        }
+        }*/
     }
 
     private fun retrofit(): Retrofit {

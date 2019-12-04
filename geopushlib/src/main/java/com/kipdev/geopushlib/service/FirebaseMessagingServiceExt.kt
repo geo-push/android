@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.kipdev.geopushlib.*
+import android.app.NotificationChannel
 
 class FirebaseMessagingServiceExt : FirebaseMessagingService(){
     override fun onMessageReceived(message: RemoteMessage?) {
@@ -24,14 +25,25 @@ class FirebaseMessagingServiceExt : FirebaseMessagingService(){
             notificationIntent.putExtra("geopushId", messageId)
             notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             val nMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val intent2 = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
+            val intent2 = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
             val nBuilder = NotificationCompat.Builder(this)
-                .setSmallIcon(android.R.mipmap.sym_def_app_icon)
+                //.setSmallIcon(R.mipmap.icon_app)
                 .setContentTitle(getMessageTitle(message) ?:"")
                 .setContentText(getMessageText(message) ?:"")
                 .setContentIntent(intent2)
                 .setAutoCancel(true)
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                val channelId = "geopush"
+                val channelName = "Geopush"
+                val importance = NotificationManager.IMPORTANCE_HIGH
+                val mChannel = NotificationChannel(
+                    channelId, channelName, importance
+                )
+                nMgr.createNotificationChannel(mChannel)
+                nBuilder.setChannelId(mChannel.id)
+            }
             nMgr.notify(0, nBuilder.build())
         }
     }

@@ -36,10 +36,13 @@ object DataProvider {
             .subscribe(onSuccess, onError)
     }
 
-    fun sendLocation(token: String, lat: Double, lon: Double, onSuccess: Consumer<Any>, onError: Consumer<Throwable>) {
-        var map = HashMap<String, Double>()
+    fun sendLocation(token: String, lat: Double, lon: Double, status: String?, onSuccess: Consumer<Any>, onError: Consumer<Throwable>) {
+        var map = HashMap<String, Any>()
         map.put("lat", lat)
         map.put("lon", lon)
+        status?.let{
+            map.put("status", status)
+        }
 
         networkModule.api()
             .sendLocation(token, map)
@@ -47,9 +50,16 @@ object DataProvider {
             .subscribe(onSuccess, onError)
     }
 
-    fun getDeals(lat: Double, lon: Double, radius: Double, onSuccess: Consumer<List<Any>>, onError: Consumer<Throwable>) {
+    fun setProps(token: String, props: HashMap<String, Any>, onSuccess: Consumer<Any>, onError: Consumer<Throwable>) {
         networkModule.api()
-            .getDeals(lat, lon, radius.toInt())
+            .setProps(token, props)
+            .compose(RxUtils.applyT())
+            .subscribe(onSuccess, onError)
+    }
+
+    fun getDeals(token:String, lat: Double, lon: Double, radius: Double, onSuccess: Consumer<List<Any>>, onError: Consumer<Throwable>) {
+        networkModule.api()
+            .getDeals(token, lat, lon, radius.toInt())
             .compose(RxUtils.applyT())
             .subscribe(onSuccess, onError)
     }

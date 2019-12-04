@@ -23,6 +23,20 @@ fun isDebug(): Boolean {
     return BuildConfig.DEBUG
 }
 
+fun sendSetProps(app: Application,props: HashMap<String, Any>){
+    checkFirebaseToken(app).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe({ token->
+        DataProvider.setProps(token, props, object : SilentConsumer<Any> {
+            override fun onConsume(t: Any) {
+                var k = 0
+                k++
+            }
+        }, object : SilentConsumer<Throwable> {
+            override fun onConsume(t: Throwable) {
+            }
+        })
+    })
+}
+
 fun sendPushDelivered(app: Application, messageId: String){
     checkFirebaseToken(app).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe({ token->
         DataProvider.sendPushDelivered(token, messageId, object : SilentConsumer<Any> {
@@ -53,7 +67,7 @@ fun sendPushOpened(app: Application, messageId: String){
 
 fun sendLocation(app: Application, lat: Double, lon: Double){
     checkFirebaseToken(app).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe({ token->
-        DataProvider.sendLocation(token, lat, lon, object : SilentConsumer<Any> {
+        DataProvider.sendLocation(token, lat, lon, ThePreferences.getTransition(app), object : SilentConsumer<Any> {
             override fun onConsume(t: Any) {
                 var k = 0
                 k++
