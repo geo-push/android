@@ -25,7 +25,7 @@ fun isDebug(): Boolean {
 
 fun sendSetProps(app: Application,props: HashMap<String, Any>){
     checkFirebaseToken(app).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe({ token->
-        DataProvider.setProps(token, props, object : SilentConsumer<Any> {
+        DataProvider.setProps(app, token, props, object : SilentConsumer<Any> {
             override fun onConsume(t: Any) {
                 var k = 0
                 k++
@@ -39,7 +39,7 @@ fun sendSetProps(app: Application,props: HashMap<String, Any>){
 
 fun sendPushDelivered(app: Application, messageId: String){
     checkFirebaseToken(app).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe({ token->
-        DataProvider.sendPushDelivered(token, messageId, object : SilentConsumer<Any> {
+        DataProvider.sendPushDelivered(app, token, messageId, object : SilentConsumer<Any> {
             override fun onConsume(t: Any) {
                 var k = 0
                 k++
@@ -53,7 +53,7 @@ fun sendPushDelivered(app: Application, messageId: String){
 
 fun sendPushOpened(app: Application, messageId: String){
     checkFirebaseToken(app).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe({ token->
-        DataProvider.sendPushOpened(token, messageId, object : SilentConsumer<Any> {
+        DataProvider.sendPushOpened(app, token, messageId, object : SilentConsumer<Any> {
             override fun onConsume(t: Any) {
                 var k = 0
                 k++
@@ -67,7 +67,7 @@ fun sendPushOpened(app: Application, messageId: String){
 
 fun sendLocation(app: Application, lat: Double, lon: Double){
     checkFirebaseToken(app).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe({ token->
-        DataProvider.sendLocation(token, lat, lon, ThePreferences.getTransition(app), object : SilentConsumer<Any> {
+        DataProvider.sendLocation(app, token, lat, lon, ThePreferences.getTransition(app), object : SilentConsumer<Any> {
             override fun onConsume(t: Any) {
                 var k = 0
                 k++
@@ -95,7 +95,7 @@ fun checkFirebaseToken(app:Application): Observable<String>
             FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { tokenIt->
                 it.onNext(tokenIt.token)
 
-                DataProvider.sendSubscribePush(tokenIt.token, object : SilentConsumer<Any> {
+                DataProvider.sendSubscribePush(app, tokenIt.token, object : SilentConsumer<Any> {
                     override fun onConsume(t: Any) {
                         ThePreferences.setToken(app, tokenIt.token)
                         it.onComplete()

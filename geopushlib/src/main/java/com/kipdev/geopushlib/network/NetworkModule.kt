@@ -18,8 +18,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 object NetworkModule {
     var application: Application? = null
-    fun api(): Api {
-        return retrofit().create(Api::class.java)
+    fun api(context: Context): Api {
+        return retrofit(context).create(Api::class.java)
     }
 
     private fun getUrl() : String {
@@ -31,7 +31,7 @@ object NetworkModule {
         }*/
     }
 
-    private fun retrofit(): Retrofit {
+    private fun retrofit(context: Context): Retrofit {
         return Retrofit.Builder()
             .validateEagerly(true)
             .addConverterFactory(ScalarsConverterFactory.create())
@@ -39,7 +39,7 @@ object NetworkModule {
             .addConverterFactory(gsonConverterFactory())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .baseUrl(getUrl())
-            .client(client())
+            .client(client(context))
             .build()
     }
 
@@ -47,9 +47,9 @@ object NetworkModule {
         return GsonConverterFactory.create()
     }
 
-    fun client(): OkHttpClient {
+    fun client(context: Context): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(headerInterceptor())
+            .addInterceptor(headerInterceptor(context))
             .addNetworkInterceptor(logInterceptor())
             //.addInterceptor(networkHandleInterceptor())
             .build()
@@ -61,7 +61,7 @@ object NetworkModule {
         return httpLoggingInterceptor
     }
 
-    fun headerInterceptor(): Interceptor {
+    fun headerInterceptor(context: Context): Interceptor {
 
 
         /*
@@ -78,7 +78,7 @@ object NetworkModule {
 
         return Interceptor { chain ->
             chain.proceed(chain.request().newBuilder()
-                .addHeader("appBundle", BuildConfig.APPLICATION_ID)
+                .addHeader("appBundle", context.getPackageName())
                 .addHeader("platform", "android")
                 .addHeader("vendor", Build.MANUFACTURER)
                 .addHeader("model", Build.MODEL)

@@ -1,42 +1,43 @@
 package com.kipdev.geopushlib.network
 
+import android.content.Context
 import io.reactivex.functions.Consumer
 
 object DataProvider {
 
     private var networkModule: NetworkModule = NetworkModule
 
-    fun sendSubscribePush(token: String, onSuccess: Consumer<Any>, onError: Consumer<Throwable>) {
+    fun sendSubscribePush(context: Context, token: String, onSuccess: Consumer<Any>, onError: Consumer<Throwable>) {
         var map = HashMap<String, String>()
         map.put("token", token)
 
-        networkModule.api()
+        networkModule.api(context)
             .sendSubscribePush(token, map)
             .compose(RxUtils.applyT())
             .subscribe(onSuccess, onError)
     }
 
-    fun sendPushDelivered(token: String, messageId: String, onSuccess: Consumer<Any>, onError: Consumer<Throwable>) {
+    fun sendPushDelivered(context: Context, token: String, messageId: String, onSuccess: Consumer<Any>, onError: Consumer<Throwable>) {
         var map = HashMap<String, String>()
         map.put("messageId", messageId)
 
-        networkModule.api()
+        networkModule.api(context)
             .sendPushDelivered(token, map)
             .compose(RxUtils.applyT())
             .subscribe(onSuccess, onError)
     }
 
-    fun sendPushOpened(token: String, messageId: String, onSuccess: Consumer<Any>, onError: Consumer<Throwable>) {
+    fun sendPushOpened(context: Context, token: String, messageId: String, onSuccess: Consumer<Any>, onError: Consumer<Throwable>) {
         var map = HashMap<String, String>()
         map.put("messageId", messageId)
 
-        networkModule.api()
+        networkModule.api(context)
             .sendPushOpened(token, map)
             .compose(RxUtils.applyT())
             .subscribe(onSuccess, onError)
     }
 
-    fun sendLocation(token: String, lat: Double, lon: Double, status: String?, onSuccess: Consumer<Any>, onError: Consumer<Throwable>) {
+    fun sendLocation(context: Context, token: String, lat: Double, lon: Double, status: String?, onSuccess: Consumer<Any>, onError: Consumer<Throwable>) {
         var map = HashMap<String, Any>()
         map.put("lat", lat)
         map.put("lon", lon)
@@ -44,21 +45,21 @@ object DataProvider {
             map.put("status", status)
         }
 
-        networkModule.api()
+        networkModule.api(context)
             .sendLocation(token, map)
             .compose(RxUtils.applyT())
             .subscribe(onSuccess, onError)
     }
 
-    fun setProps(token: String, props: HashMap<String, Any>, onSuccess: Consumer<Any>, onError: Consumer<Throwable>) {
-        networkModule.api()
+    fun setProps(context: Context, token: String, props: HashMap<String, Any>, onSuccess: Consumer<Any>, onError: Consumer<Throwable>) {
+        networkModule.api(context)
             .setProps(token, props)
             .compose(RxUtils.applyT())
             .subscribe(onSuccess, onError)
     }
 
-    fun getDeals(token:String, lat: Double, lon: Double, radius: Double, onSuccess: Consumer<List<Any>>, onError: Consumer<Throwable>) {
-        networkModule.api()
+    fun getDeals(context: Context, token:String, lat: Double, lon: Double, radius: Double, onSuccess: Consumer<List<Any>>, onError: Consumer<Throwable>) {
+        networkModule.api(context)
             .getDeals(token, lat, lon, radius.toInt())
             .compose(RxUtils.applyT())
             .subscribe(onSuccess, onError)
