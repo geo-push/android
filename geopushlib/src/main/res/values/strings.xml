@@ -1,4 +1,3 @@
 <resources>
-    <string name="app_name">GeoPushLib</string>
-    <string name="text.location_updated">Location Updated: %1$s</string>
+    <string name="app_name">GeoPush</string>
 </resources>
