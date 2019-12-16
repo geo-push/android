@@ -98,3 +98,14 @@ GeoPush.shared().startTracking(true|false)
 
 **startTracking(true)**- запускается отслеживаение пользоваталя если ранее в основном проекте были получены разрешения на местоположение, иначе SDK ожидает получения местоположения и запустит автоматически отслеживание, после их получения
 
+
+## Настройка отправки данных о пользователе:
+```
+ var map = HashMap<String, Any>()
+            map.put("name", "Alex")
+            map.put("age", 21)
+            map.put("birthdate", "12.12.2019")
+            map.put("isMarried", true)
+GeoPush.shared().sendUserInfo(map)
+```
+
