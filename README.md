@@ -15,9 +15,9 @@ include ':geopushlib'
 ```
 GeoPush.init(applicationContext, useDevServer, logEnabled)
 ```
-useDevServer: Boolean. Использовать дев сервер в SDK. Значение по-умолчанию false.
+**useDevServer: Boolean.** Использовать дев сервер в SDK. Значение по-умолчанию false.
 
-logEnabled: Boolean. Включение/выключение логирования. Значение по-умолчанию false.
+**logEnabled: Boolean.** Включение/выключение логирования. Значение по-умолчанию false.
 
 После инициализации, вся дальнейшая работа с SDK усуществляется через публичный объект
 ```
