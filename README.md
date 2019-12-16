@@ -13,8 +13,12 @@ include ':geopushlib'
 
 Необходимо произвести инициализацию библиотеки в Application классе вашего проекта
 ```
-GeoPush.init(applicationContext)
+GeoPush.init(applicationContext, useDevServer, logEnabled)
 ```
+useDevServer: Boolean. Использовать дев сервер в SDK. Значение по-умолчанию false.
+
+logEnabled: Boolean. Включение/выключение логирования. Значение по-умолчанию false.
+
 После инициализации, вся дальнейшая работа с SDK усуществляется через публичный объект
 ```
 GeoPush.shared()
