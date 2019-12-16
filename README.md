@@ -56,9 +56,9 @@ class FirebaseMessagingService : FirebaseMessagingService(){
 ```
 **GeoPush.shared().sendPushToken(token)** - отправка пуш-токена на сервер SDK
 
-**GeoPush.shared().markPushDelivered(meesage.data)** - пометить пуш как полученный. Функция возвращает идентификатор сообщения, который необходимо передать на запускаемый по клику экран, для того, чтобы отметить пуш как открытый
+**GeoPush.shared().markPushDelivered(message.data)** - пометить пуш как полученный. Функция возвращает идентификатор сообщения, который необходимо передать на запускаемый по клику экран, для того, чтобы отметить пуш как открытый
 
-**GeoPush.shared().markPushOpened(id)** - пометить пуш как открытый
+**GeoPush.shared().markPushOpened(messageId)** - пометить пуш как открытый
 
 B прописать его в AndroidManifest.xml основного проекта
 ```
@@ -90,7 +90,7 @@ GeoPush.shared().startTracking()
 GeoPush.shared().startTracking(true|false)
 ```
 Методы могут вызваны как в Application классе основного проекта(после инициализации SDK), так и в любой момент работы основного проекта
-
+**true|false** - настройка, указывающая стоит ли SDK мониторить разрешения на местоположение. 
 **startTracking()** и 
 **startTracking(false)** - запускается отслеживание пользоваталя только если ранее в основном проекте были получены разрешения на местоположение
 
