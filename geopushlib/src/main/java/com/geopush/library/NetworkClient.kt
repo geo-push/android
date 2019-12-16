@@ -10,12 +10,16 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class NetworkClient(private val context: Context) {
+class NetworkClient(
+    private val context: Context,
+    private val devServer: Boolean,
+    private val logEnabled: Boolean = false
+) {
 
     private val LIVE_SERVER = "http://geopush.ubank.su/api/"
     private val DEV_SERVER = "https://api.geopush.me/api/"
 
-    private val BASE_URL = LIVE_SERVER
+    private val BASE_URL by lazy { if (devServer) DEV_SERVER else LIVE_SERVER }
 
 
     public fun getTerminalApi() = getRetrofit().create(TerminalApi::class.java)
@@ -34,10 +38,13 @@ class NetworkClient(private val context: Context) {
         return GsonConverterFactory.create()
     }
 
-    private fun getOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(getHeaderInterceptor(context))
-        .addInterceptor(getLogInterceptor())
-        .build()
+    private fun getOkHttpClient(): OkHttpClient {
+        val builder = OkHttpClient.Builder()
+            .addInterceptor(getHeaderInterceptor(context))
+        if (logEnabled)
+            builder.addInterceptor(getLogInterceptor())
+        return builder.build()
+    }
 
     private fun getHeaderInterceptor(context: Context): Interceptor {
         return object : Interceptor {

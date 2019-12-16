@@ -9,19 +9,22 @@ import com.geopush.library.pojo.PushTokenRequest
 import com.google.gson.Gson
 import com.kipdev.geopushlib.preferences.SharedPrefsStore
 
-public class GeoPush(private val context: Context) {
+public class GeoPush internal constructor(private val context: Context, private val devServer: Boolean = false, private val logEnabled: Boolean = false) {
+
+
 
     private val locationManager by lazy { LocationManager(context) }
-    private val networkClient by lazy { NetworkClient(context) }
+    private val networkClient by lazy { NetworkClient(context, devServer, logEnabled) }
 
     companion object {
 
         private var INSTANCE: GeoPush? = null
 
         @JvmStatic
-        fun init(context: Context): GeoPush {
+        fun init(context: Context, devServer: Boolean = false, logEnabled: Boolean = false): GeoPush {
             if (INSTANCE == null)
-                INSTANCE = GeoPush(context)
+                INSTANCE = GeoPush(context, devServer, logEnabled)
+            GeoLog.init(logEnabled)
             return INSTANCE!!
         }
 
