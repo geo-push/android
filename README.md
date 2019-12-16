@@ -54,9 +54,9 @@ class FirebaseMessagingService : FirebaseMessagingService(){
         }
     }
 ```
-**GeoPush.shared().sendPushToken(it)** - отправка пуш-токена на сервер SDK
+**GeoPush.shared().sendPushToken(token)** - отправка пуш-токена на сервер SDK
 
-**GeoPush.shared().markPushDelivered(it)** - пометить пуш как полученный. Функция возвращает идентификатор сообщения, который необходимо передать на запускаемый по клику экран, для того, чтобы отметить пуш как открытый
+**GeoPush.shared().markPushDelivered(meesage.data)** - пометить пуш как полученный. Функция возвращает идентификатор сообщения, который необходимо передать на запускаемый по клику экран, для того, чтобы отметить пуш как открытый
 
 **GeoPush.shared().markPushOpened(id)** - пометить пуш как открытый
 
