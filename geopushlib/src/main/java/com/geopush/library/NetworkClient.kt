@@ -22,7 +22,7 @@ class NetworkClient(
     private val BASE_URL by lazy { if (devServer) DEV_SERVER else LIVE_SERVER }
 
 
-    public fun getTerminalApi() = getRetrofit().create(TerminalApi::class.java)
+    fun getTerminalApi() = getRetrofit().create(TerminalApi::class.java)
 
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
@@ -56,10 +56,7 @@ class NetworkClient(
                     .addHeader("model", Build.MODEL)
                     .addHeader("osver", Build.VERSION.RELEASE)
                     .addHeader("version", BuildConfig.VERSION_NAME)
-                val token = SharedPrefsStore.getInstance(context).getToken()
-                token?.let {
-                    req.addHeader("hwid", it)
-                }
+                    .addHeader("hwid", SharedPrefsStore.getInstance(context).getHwId())
                 return chain.proceed(req.build())
             }
         }

@@ -1,12 +1,13 @@
 package com.kipdev.geopushlib.preferences
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import java.util.*
 
 private const val GEO_STORE: String = "GEO_STORE_PREFS"
 private const val KEY_TOKEN: String = "PUSH_TOKEN"
+private const val HWID: String = "HWID"
 
 class SharedPrefsStore(private val context: Context) {
     private val prefs: SharedPreferences by lazy { context.getSharedPreferences(GEO_STORE, Context.MODE_PRIVATE) }
@@ -19,6 +20,16 @@ class SharedPrefsStore(private val context: Context) {
                 INSTANCE = SharedPrefsStore(context)
             return INSTANCE!!
         }
+    }
+
+    fun getHwId() = prefs.getString(HWID, null)?.let { it } ?: kotlin.run {
+        val hwid = UUID.randomUUID().toString()
+        setHwId(hwid)
+        hwid
+    }
+
+    private fun setHwId(hwid: String) {
+        prefs.edit().putString(HWID, hwid).apply()
     }
 
     fun getToken(): String? =
