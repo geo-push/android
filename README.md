@@ -52,9 +52,9 @@ class FirebaseMessagingService : FirebaseMessagingService(){
             GeoPush.shared().markPushDelivered(it)
         }
         messageId?.let { 
-            showGeoPushNotification(getMessageTitle(message) , getMessageText(message), it)
+            //Пуш получен от SDK. Необходимо его показать и передать messageId в intent запускаемого экрана. 
         }?:kotlin.run {
-            //default notifications
+            //other notifications
         }
     }
 ```
