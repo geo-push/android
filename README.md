@@ -15,6 +15,13 @@ include ':geopushlib'
 ```
 GeoPush.init(applicationContext, useDevServer, logEnabled)
 ```
+**ИЛИ**
+```
+GeoPush.init(applicationContext, customServer, logEnabled)
+```
+
+**customServer: String.** Сторонний сервер, на который будет отсылать запросы SDK (необходимо указать, только если вы хотите отсылать запросы на свой сервер)
+
 **useDevServer: Boolean.** Использовать дев сервер в SDK. Значение по-умолчанию false.
 
 **logEnabled: Boolean.** Включение/выключение логирования. Значение по-умолчанию false.
