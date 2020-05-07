@@ -13,13 +13,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 class NetworkClient(
     private val context: Context,
     private val devServer: Boolean,
-    private val logEnabled: Boolean = false
+    private val logEnabled: Boolean = false,
+    private val customServer: String? = null
 ) {
 
     private val LIVE_SERVER = "http://geopush.ubank.su/api/"
     private val DEV_SERVER = "https://api.geopush.me/api/"
 
-    private val BASE_URL by lazy { if (devServer) DEV_SERVER else LIVE_SERVER }
+    private val BASE_URL by lazy { customServer?.let { it } ?: kotlin.run { if (devServer) DEV_SERVER else LIVE_SERVER }
+    }
 
 
     fun getTerminalApi() = getRetrofit().create(TerminalApi::class.java)

@@ -9,12 +9,12 @@ import com.geopush.library.pojo.PushTokenRequest
 import com.google.gson.Gson
 import com.kipdev.geopushlib.preferences.SharedPrefsStore
 
-public class GeoPush internal constructor(private val context: Context, private val devServer: Boolean = false, private val logEnabled: Boolean = false) {
+public class GeoPush internal constructor(private val context: Context, private val devServer: Boolean = false, private val logEnabled: Boolean = false, private val customServer: String? = null) {
 
 
 
     private val locationManager by lazy { LocationManager(context) }
-    private val networkClient by lazy { NetworkClient(context, devServer, logEnabled) }
+    private val networkClient by lazy { NetworkClient(context, devServer, logEnabled, customServer) }
 
     companion object {
 
@@ -24,6 +24,14 @@ public class GeoPush internal constructor(private val context: Context, private 
         fun init(context: Context, devServer: Boolean = false, logEnabled: Boolean = false): GeoPush {
             if (INSTANCE == null)
                 INSTANCE = GeoPush(context, devServer, logEnabled)
+            GeoLog.init(logEnabled)
+            return INSTANCE!!
+        }
+
+        @JvmStatic
+        fun init(context: Context, customServer: String, logEnabled: Boolean = false): GeoPush {
+            if (INSTANCE == null)
+                INSTANCE = GeoPush(context, false, logEnabled, customServer)
             GeoLog.init(logEnabled)
             return INSTANCE!!
         }
